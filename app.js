@@ -13,9 +13,6 @@ const HttpError = require("./models/http-error");
 // creating app object by callibng express as function
 const app = express();
 
-// Middleware
-app.use(bodyParser.json());
-
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
@@ -26,11 +23,11 @@ app.use((req, res, next) => {
   next();
 });
 
+// Middleware
+app.use(bodyParser.json());
+
 app.use("/api/trips", tripsRoutes);
 app.use("/api/users", usersRoutes);
-app.use((req, res, next) => {
-  res.sendFile(path.resolve(__dirname, "public", "index.html"));
-});
 
 app.use((req, res, next) => {
   const error = new HttpError("could not found this route...", 404);
